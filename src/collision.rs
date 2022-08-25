@@ -11,6 +11,7 @@ use crate::{
     generator::{Pipe, Coin}
 };
 
+// Detects when player collides with a pipe or a coin
 pub fn check_collisions(
     players: Query<&Position, With<Player>>,
     pipes: Query<&Position, With<Pipe>>,
@@ -45,6 +46,7 @@ pub fn check_collisions(
     }
 }
 
+// Kills the player if they go off the screen
 pub fn check_bounds(
     players: Query<&Position, With<Player>>,
     windows: Res<Windows>,

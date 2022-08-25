@@ -27,6 +27,7 @@ pub struct Jumper {
     pub upward_force: f32
 }
 
+// Gives entites with weight downwards acceleration
 pub fn apply_weight(
     mut query: Query<(&mut Velocity, &Weight)>,
     time: Res<Time>
@@ -36,6 +37,7 @@ pub fn apply_weight(
     }
 }
 
+// Applies velocity to position
 pub fn apply_velocity(
     mut query: Query<(&mut Position, &Velocity)>,
     time: Res<Time>
@@ -46,6 +48,7 @@ pub fn apply_velocity(
     }
 }
 
+// Applies position to sprite transforms
 pub fn apply_positions(
     mut query: Query<(&mut Transform, &Position)>,
 ) {

@@ -10,6 +10,7 @@ const JUMP_KEYS: [KeyCode; 2] = [KeyCode::Space, KeyCode::Return];
 #[derive(Component)]
 pub struct Player;
 
+// Gives the player upwards velocity if a jump key is pressed
 pub fn jump(
     mut query: Query<(&mut Velocity, &Jumper)>,
     input: Res<Input<KeyCode>>

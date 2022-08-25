@@ -10,6 +10,7 @@ pub struct PlayButton;
 #[derive(Component)]
 pub struct ScoreText;
 
+// Responds to interaction events with the play button
 pub fn play_button(
     mut query: Query<
         (&mut UiImage, &Interaction),
@@ -33,6 +34,7 @@ pub fn play_button(
     }
 }
 
+// Keeps the score text updated
 pub fn update_score_text(
     mut query: Query<&mut Text, With<ScoreText>>,
     data: Res<GameData>,
@@ -42,6 +44,7 @@ pub fn update_score_text(
     }
 }
 
+// Adds the play button to the screen
 pub fn add_menu_buttons(
     mut commands: Commands,
     asset_server: Res<AssetServer>
@@ -61,6 +64,7 @@ pub fn add_menu_buttons(
         .insert(PlayButton);
 }
 
+// Shows a game over message
 pub fn show_game_over(
     mut commands: Commands,
     asset_server: Res<AssetServer>
@@ -82,6 +86,7 @@ pub fn show_game_over(
         .insert(ScoreText);
 }
 
+// Shows the game logo
 pub fn show_menu_screen(
     mut commands: Commands,
     asset_server: Res<AssetServer>
@@ -103,6 +108,7 @@ pub fn show_menu_screen(
         .insert(ScoreText);
 }
 
+// Creates a text bundle which displays the score at the time of creation
 pub fn show_score(
     mut commands: Commands,
     data: Res<GameData>,

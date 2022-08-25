@@ -7,18 +7,21 @@ use crate::{
     control::Player,
 };
 
+// Creates a 2D camera
 pub fn init_camera(
     mut commands: Commands
 ) {
     commands.spawn_bundle(Camera2dBundle::default());
 }
 
+// Initialises global game data
 pub fn init_game_data(
     mut commands: Commands,
 ) {
     commands.insert_resource(GameData {score: 0});
 }
 
+// Adds the player entity to the world
 pub fn add_player(
     mut commands: Commands,
     asset_server: Res<AssetServer>
@@ -36,6 +39,7 @@ pub fn add_player(
         .insert(Player);
 }
 
+// Deletes all entities
 pub fn cleanup_all(
     mut commands: Commands, 
     query: Query<Entity>

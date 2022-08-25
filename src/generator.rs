@@ -16,6 +16,7 @@ pub struct PipeSpawnSchedule {
     pub time_left: f32
 }
 
+// Spawns pipes at a fixed interval
 pub fn spawn_pipes(
     mut commands: Commands,
     time: Res<Time>,
@@ -92,6 +93,7 @@ pub fn spawn_pipes(
     }
 }
 
+// Starts the pipe generator
 pub fn start(
     mut commands: Commands,
 ) {
