@@ -49,6 +49,7 @@ pub fn cleanup_all(
     }
 }
 
+// Deletes any pipes or coins that go off the screen
 pub fn cleanup_pipes(
     mut commands: Commands,
     windows: Res<Windows>,
