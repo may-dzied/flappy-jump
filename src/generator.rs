@@ -16,11 +16,25 @@ pub struct PipeSpawnSchedule {
     pub time_left: f32
 }
 
+pub struct PipeAsset(Handle<Image>);
+pub struct CoinAsset(Handle<Image>);
+
+pub fn load_generator_assets(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>
+) {
+    let pipe = asset_server.load("pipe.png");
+    let coin = asset_server.load("coin.png");
+    commands.insert_resource(PipeAsset(pipe));
+    commands.insert_resource(CoinAsset(coin));
+}
+
 // Spawns pipes at a fixed interval
 pub fn spawn_pipes(
     mut commands: Commands,
     time: Res<Time>,
-    asset_server: Res<AssetServer>,
+    pipe_asset: Res<PipeAsset>,
+    coin_asset: Res<CoinAsset>,
     windows: Res<Windows>,
     mut schedule: ResMut<PipeSpawnSchedule>,
 ) {
@@ -48,7 +62,7 @@ pub fn spawn_pipes(
         pipe_transform.scale = Vec3::new(3., 3., 1.);
         commands
             .spawn_bundle(SpriteBundle {
-                texture: asset_server.load("pipe.png"),
+                texture: pipe_asset.0.clone(),
                 transform: pipe_transform,
                 ..default()
             })
@@ -66,7 +80,7 @@ pub fn spawn_pipes(
         pipe_transform.rotation = Quat::from_rotation_z(180.0f32.to_radians());
         commands
             .spawn_bundle(SpriteBundle {
-                texture: asset_server.load("pipe.png"),
+                texture: pipe_asset.0.clone(),
                 transform: pipe_transform,
                 ..default()
             })
@@ -81,7 +95,7 @@ pub fn spawn_pipes(
         };
         commands
             .spawn_bundle(SpriteBundle {
-                texture: asset_server.load("coin.png"),
+                texture: coin_asset.0.clone(),
                 transform: Transform::from_xyz(position.x, position.y, 0.),
                 ..default()
             })

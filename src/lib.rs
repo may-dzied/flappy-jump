@@ -50,6 +50,7 @@ pub fn main() {
                 .with_system(manager::add_player)
                 .with_system(ui::show_score)
                 .with_system(generator::start)
+                .with_system(generator::load_generator_assets)
         )
         .add_system_set(
             SystemSet::on_update(GameState::InGame)
