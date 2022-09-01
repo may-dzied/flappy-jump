@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    prelude::*,
+    window::WindowResized
+};
 
 use crate::{
     GameState, GameData
@@ -10,26 +13,20 @@ pub struct PlayButton;
 #[derive(Component)]
 pub struct ScoreText;
 
+#[derive(Component)]
+pub struct Background;
+
 // Responds to interaction events with the play button
 pub fn play_button(
-    mut query: Query<
-        (&mut UiImage, &Interaction),
+    query: Query<
+        &Interaction,
         (Changed<Interaction>, With<PlayButton>),
     >,
-    asset_server: Res<AssetServer>,
     mut state: ResMut<State<GameState>>,
  ) {
-    for (mut image, interaction) in &mut query {
-        match *interaction {
-            Interaction::Clicked => {
-                state.set(GameState::InGame).unwrap();
-            }
-            Interaction::Hovered => {
-                *image = UiImage(asset_server.load("play-button-hover.png"));
-            }
-            Interaction::None => {
-                *image = UiImage(asset_server.load("play-button.png"));
-            }
+    for interaction in &query {
+        if let Interaction::Clicked = *interaction {
+            state.set(GameState::InGame).unwrap();
         }
     }
 }
@@ -41,6 +38,38 @@ pub fn update_score_text(
 ) {
     for mut text in &mut query {
         text.sections[0].value = data.score.to_string();
+    }
+}
+
+pub fn show_background(
+    mut commands: Commands,
+    windows: Res<Windows>,
+    asset_server: Res<AssetServer>
+) {
+    let window = windows.get_primary().unwrap();
+    let width_scale = window.width() / 32.;
+    let height_scale = window.height() / 32.;
+    let mut background_transform = Transform::from_scale(Vec3::new(width_scale, height_scale, 1.));
+    background_transform.translation.z = 50.;
+    commands
+        .spawn_bundle(SpriteBundle {
+            texture: asset_server.load("background.png"),
+            transform: background_transform,
+            ..default()
+        })
+        .insert(Background);
+}
+
+pub fn resize_background(
+    resize_event: Res<Events<WindowResized>>,
+    mut query: Query<&mut Transform, With<Background>>
+) {
+    let mut reader = resize_event.get_reader();
+    for e in reader.iter(&resize_event) {
+        for mut transform in &mut query {
+            transform.scale.x = e.width / 32.;
+            transform.scale.y = e.height / 32.;
+        }
     }
 }
 

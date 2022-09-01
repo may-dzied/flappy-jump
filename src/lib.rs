@@ -35,12 +35,14 @@ pub fn main() {
             SystemSet::on_enter(GameState::MainMenu)
                 .with_system(manager::init_camera)
                 .with_system(ui::show_menu_screen)
+                .with_system(ui::show_background)
                 .with_system(ui::add_menu_buttons)
                 .with_system(manager::init_game_data)
         )
         .add_system_set(
             SystemSet::on_update(GameState::MainMenu)
                 .with_system(ui::play_button)
+                .with_system(ui::resize_background)
         )
 
         .add_system_set(
